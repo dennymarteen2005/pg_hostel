@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>PG Owner Login - PG Connect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(222, 184, 135, 0.3) 50%, rgba(240, 230, 140, 0.2) 100%);
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23f5e6d3;stop-opacity:1" /><stop offset="50%" style="stop-color:%23e8d5c4;stop-opacity:1" /><stop offset="100%" style="stop-color:%23dbc4a2;stop-opacity:1" /></linearGradient></defs><rect width="100%" height="100%" fill="url(%23bg)"/><path d="M800 200 Q900 150 1000 200 L1000 300 Q900 250 800 300 Z" fill="%23d4b896" opacity="0.6"/><path d="M600 400 Q700 350 800 400 L800 500 Q700 450 600 500 Z" fill="%23c9ad91" opacity="0.5"/><ellipse cx="900" cy="650" rx="100" ry="50" fill="%23be9f7e" opacity="0.4"/></svg>');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 50px 40px;
+            width: 450px;
+            max-width: 90%;
+            box-shadow: 0 20px 40px rgba(107, 70, 193, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            color: #6B46C1;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .logo {
+            color: #6B46C1;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #6B46C1;
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.8;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            color: #6B46C1;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid rgba(107, 70, 193, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #1f2937;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #6B46C1;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(107, 70, 193, 0.6);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: #6B46C1;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .login-btn:hover {
+            background: #553C9A;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(107, 70, 193, 0.3);
+        }
+
+        .divider {
+            margin: 30px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(107, 70, 193, 0.3);
+        }
+
+        .divider span {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0 20px;
+            color: #6B46C1;
+            font-size: 14px;
+        }
+
+        .signup-link {
+            color: #6B46C1;
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+        }
+
+        .signup-link:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        .forgot-password {
+            display: block;
+            color: #6B46C1;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 15px;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 40px 30px;
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <button class="back-btn" onclick="goBack()">←</button>
+        
+        <div class="logo">pg connect</div>
+        <div class="subtitle">PG Owner Login</div>
+
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="login-btn">Login</button>
+            
+            <a href="#" class="forgot-password">Forgot Password?</a>
+        </form>
+
+        <div class="divider">
+            <span>Don't have an account?</span>
+        </div>
+
+        <a href="{% url 'owner_signup' %}">Don't have an account? Sign up</a>
+    </div>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Add your login logic here
+            console.log('Owner Login:', { email, password });
+            alert('Login functionality to be implemented');
+        }
+
+        function goBack() {
+            // Navigate back to main page or previous page
+            window.history.back();
+        }
+
+        // Add some visual feedback
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateY(-2px)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
