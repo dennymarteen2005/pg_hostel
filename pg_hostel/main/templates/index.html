@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Access Portal - Choose Your Role</title>
+    <title>PG Connect - Premium Paying Guest Platform</title>
         {% load static %}
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
@@ -29,24 +29,24 @@
             </h1>
 
             <div class="user-roles">
-                <div class="role-card" onclick="handleRoleClick('admin')">
-                    <span class="role-icon">👨‍💼</span>
-                    <h3 class="role-title">Admin</h3>
-                    <p class="role-description">Manage the platform and oversee all operations</p>
-                </div>
+    <div class="role-card" data-url="/admin/login/">
+        <span class="role-icon">👨‍💼</span>
+        <h3 class="role-title">Admin</h3>
+        <p class="role-description">Manage the platform and oversee all operations</p>
+    </div>
 
-                <div class="role-card" onclick="handleRoleClick('pg-owner')">
-                    <span class="role-icon">🏠</span>
-                    <h3 class="role-title">PG Owner</h3>
-                    <p class="role-description">List and manage your properties with ease</p>
-                </div>
+    <div class="role-card" data-url="{% url 'owner_login' %}">
+        <span class="role-icon">🏠</span>
+        <h3 class="role-title">PG Owner</h3>
+        <p class="role-description">List and manage your properties with ease</p>
+    </div>
 
-                <div class="role-card" onclick="handleRoleClick('user')">
-                    <span class="role-icon">👥</span>
-                    <h3 class="role-title">User</h3>
-                    <p class="role-description">Find and book your ideal accommodation</p>
-                </div>
-            </div>
+    <div class="role-card" data-url="{% url 'user_login' %}">
+        <span class="role-icon">👥</span>
+        <h3 class="role-title">User</h3>
+        <p class="role-description">Find and book your ideal accommodation</p>
+    </div>
+</div>
         </main>
     </div>
 
@@ -56,6 +56,17 @@
         <div class="sphere"></div>
     </div>
 
+<script>
+    document.querySelectorAll(".role-card").forEach(card => {
+        card.addEventListener("click", function() {
+            const url = this.getAttribute("data-url");
+            if (url) {
+                window.location.href = url;
+            }
+        });
+    });
+</script>
     </body>
+
 
 </html>
