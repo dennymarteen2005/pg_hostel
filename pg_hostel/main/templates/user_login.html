@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
-    <title>PG Owner Login - PG Connect</title>
+    <title>user Login - PG Connect</title>
     <style>
         * {
             margin: 0;
@@ -191,9 +191,10 @@
         <button class="back-btn" onclick="goBack()">←</button>
         
         <div class="logo">pg connect</div>
-        <div class="subtitle">PG Owner Login</div>
+        <div class="subtitle">PG user Login</div>
 
-        <form id="loginForm" onsubmit="handleLogin(event)">
+        <form method="post" action="{% url 'user_login' %}">
+    {% csrf_token %}
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
@@ -213,19 +214,19 @@
             <span>Don't have an account?</span>
         </div>
 
-        <a href="{% url 'owner_signup' %}">Don't have an account? Sign up</a>
+        <a href="{% url 'user_signup' %}">Don't have an account? Sign up</a>
     </div>
 
     <script>
-        function handleLogin(event) {
-            event.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+        // function handleLogin(event) {
+        //     event.preventDefault();
+        //     const email = document.getElementById('email').value;
+        //     const password = document.getElementById('password').value;
             
-            // Add your login logic here
-            console.log('Owner Login:', { email, password });
-            alert('Login functionality to be implemented');
-        }
+        //     // Add your login logic here
+        //     console.log('Owner Login:', { email, password });
+        //     alert('Login functionality to be implemented');
+        // }
 
         function goBack() {
             // Navigate back to main page or previous page

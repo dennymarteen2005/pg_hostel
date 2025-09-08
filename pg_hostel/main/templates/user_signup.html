@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PG user Signup - PG Connect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(222, 184, 135, 0.3) 50%, rgba(240, 230, 140, 0.2) 100%);
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23f5e6d3;stop-opacity:1" /><stop offset="50%" style="stop-color:%23e8d5c4;stop-opacity:1" /><stop offset="100%" style="stop-color:%23dbc4a2;stop-opacity:1" /></linearGradient></defs><rect width="100%" height="100%" fill="url(%23bg)"/><path d="M800 200 Q900 150 1000 200 L1000 300 Q900 250 800 300 Z" fill="%23d4b896" opacity="0.6"/><path d="M600 400 Q700 350 800 400 L800 500 Q700 450 600 500 Z" fill="%23c9ad91" opacity="0.5"/><ellipse cx="900" cy="650" rx="100" ry="50" fill="%23be9f7e" opacity="0.4"/></svg>');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 0;
+        }
+
+        .signup-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 50px 40px;
+            width: 450px;
+            max-width: 90%;
+            box-shadow: 0 20px 40px rgba(107, 70, 193, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            color: #6B46C1;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .logo {
+            color: #6B46C1;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #6B46C1;
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            color: #6B46C1;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid rgba(107, 70, 193, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #1f2937;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #6B46C1;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(107, 70, 193, 0.6);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            font-size: 14px;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .signup-btn {
+            width: 100%;
+            padding: 15px;
+            background: #6B46C1;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .signup-btn:hover {
+            background: #553C9A;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(107, 70, 193, 0.3);
+        }
+
+        .divider {
+            margin: 30px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(107, 70, 193, 0.3);
+        }
+
+        .divider span {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0 20px;
+            color: #6B46C1;
+            font-size: 14px;
+        }
+
+        .login-link {
+            color: #6B46C1;
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+        }
+
+        .login-link:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .signup-container {
+                padding: 40px 30px;
+                width: 95%;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <button class="back-btn" onclick="goBack()">←</button>
+        
+        <div class="logo">pg connect</div>
+        <div class="subtitle">Create PG user Account</div>
+
+       <form id="signupForm" method="post" action="{% url 'owner_signup' %}">
+    {% csrf_token %}
+
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="first_name" placeholder="First name" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="last_name" placeholder="Last name" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="businessName">Business/Property Name</label>
+                <input type="text" id="businessName" name="business_name" placeholder="Your PG/business name" required>
+            </div>
+                  <div class="form-group">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" placeholder="Choose a username" required>
+</div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password1" placeholder="Create password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="password2" placeholder="Confirm password" required>
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">I agree to the Terms & Conditions and Privacy Policy</label>
+            </div>
+
+            <button type="submit" class="signup-btn">Create Account</button>
+        </form>
+
+        <div class="divider">
+            <span>Already have an account?</span>
+        </div>
+
+        <a href="user_login.html" class="login-link">Login as PG Owner</a>
+    </div>
+
+    <script>
+        // function handleSignup(event) {
+        //     event.preventDefault();
+        //     const formData = new FormData(event.target);
+        //     const data = Object.fromEntries(formData);
+            
+        //     // Check password match
+        //     if (data.password !== data.confirmPassword) {
+        //         alert('Passwords do not match!');
+        //         return;
+        //     }
+            
+        //     // Add your signup logic here
+        //     console.log('Owner Signup:', data);
+        //     alert('Signup functionality to be implemented');
+        // }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        // Password strength indicator
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strength = getPasswordStrength(password);
+            // You can add visual password strength indicator here
+        });
+
+        function getPasswordStrength(password) {
+            let score = 0;
+            if (password.length >= 8) score++;
+            if (/[A-Z]/.test(password)) score++;
+            if (/[0-9]/.test(password)) score++;
+            if (/[^A-Za-z0-9]/.test(password)) score++;
+            return score;
+        }
+
+        // Visual feedback for form elements
+        document.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateY(-2px)';
+            });
+            
+            element.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>az

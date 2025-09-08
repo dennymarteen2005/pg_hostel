@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PG Finder - Find Your Perfect Paying Guest Accommodation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 25px;
+            padding: 8px 20px;
+            min-width: 400px;
+        }
+
+        .search-input {
+            border: none;
+            outline: none;
+            flex: 1;
+            padding: 8px;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .search-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Main Container */
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        /* Sidebar Filters */
+        .sidebar {
+            width: 300px;
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .filter-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #667eea;
+        }
+
+        .filter-section {
+            margin-bottom: 2rem;
+        }
+
+        .filter-label {
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+            display: block;
+            color: #555;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .filter-option:hover {
+            background: #f8f9ff;
+        }
+
+        .filter-option input {
+            accent-color: #667eea;
+        }
+
+        .price-range {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .price-input {
+            flex: 1;
+            padding: 8px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .apply-filters {
+            width: 100%;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .apply-filters:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .results-count {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .sort-dropdown {
+            padding: 8px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+        }
+
+        /* PG Cards */
+        .pg-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .pg-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .pg-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .pg-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .pg-content {
+            padding: 1.5rem;
+        }
+
+        .pg-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .pg-location {
+            color: #666;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pg-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-tag {
+            background: #e2e8f0;
+            color: #4a5568;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        .feature-tag.veg {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .feature-tag.ac {
+            background: #bee3f8;
+            color: #2a4365;
+        }
+
+        .feature-tag.wifi {
+            background: #fbb6ce;
+            color: #702459;
+        }
+
+        .pg-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pg-price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .contact-btn {
+            background: #48bb78;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background: #38a169;
+            transform: translateY(-1px);
+        }
+
+        .availability {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .available {
+            color: #22543d;
+            background: #c6f6d5;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .limited {
+            color: #d69e2e;
+            background: #faf089;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+            
+            .search-container {
+                min-width: 250px;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .nav-menu {
+                gap: 1rem;
+            }
+            
+            .pg-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">🏠 PG Finder</div>
+        
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search by location, PG name, or area..." id="searchInput">
+            <button class="search-btn" onclick="searchPGs()">🔍 Search</button>
+        </div>
+        
+        <div class="nav-menu">
+            <a href="#" class="nav-item">Home</a>
+            <a href="#" class="nav-item">About</a>
+            <a href="#" class="nav-item">Contact</a>
+            <a href="#" class="nav-item">List Your PG</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Sidebar Filters -->
+        <aside class="sidebar">
+            <h3 class="filter-title">🔍 Filters</h3>
+            
+            <!-- Room Sharing -->
+            <div class="filter-section">
+                <label class="filter-label">Room Sharing</label>
+                <div class="filter-group">
+                    <div class="filter-option">
+                        <input type="checkbox" id="single" name="sharing" value="single">
+                        <label for="single">Single Room</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="double" name="sharing" value="double">
+                        <label for="double">Double Sharing</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="triple" name="sharing" value="triple">
+                        <label for="triple">Triple Sharing</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="multiple" name="sharing" value="multiple">
+                        <label for="multiple">Multiple Sharing</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Food Type -->
+            <div class="filter-section">
+                <label class="filter-label">Food Preference</label>
+                <div class="filter-group">
+                    <div class="filter-option">
+                        <input type="radio" id="veg" name="food" value="veg">
+                        <label for="veg">🥗 Vegetarian Only</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" id="nonveg" name="food" value="nonveg">
+                        <label for="nonveg">🍗 Non-Vegetarian</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" id="both" name="food" value="both">
+                        <label for="both">🍽️ Both Available</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AC/Non-AC -->
+            <div class="filter-section">
+                <label class="filter-label">Air Conditioning</label>
+                <div class="filter-group">
+                    <div class="filter-option">
+                        <input type="radio" id="ac" name="ac" value="ac">
+                        <label for="ac">❄️ AC Rooms</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" id="nonac" name="ac" value="nonac">
+                        <label for="nonac">🌬️ Non-AC Rooms</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" id="both-ac" name="ac" value="both-ac">
+                        <label for="both-ac">🏠 Both Available</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Price Range -->
+            <div class="filter-section">
+                <label class="filter-label">Price Range (₹/month)</label>
+                <div class="price-range">
+                    <input type="number" class="price-input" placeholder="Min" id="minPrice">
+                    <span>-</span>
+                    <input type="number" class="price-input" placeholder="Max" id="maxPrice">
+                </div>
+            </div>
+
+            <!-- Amenities -->
+            <div class="filter-section">
+                <label class="filter-label">Amenities</label>
+                <div class="filter-group">
+                    <div class="filter-option">
+                        <input type="checkbox" id="wifi" name="amenities" value="wifi">
+                        <label for="wifi">📶 WiFi</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="laundry" name="amenities" value="laundry">
+                        <label for="laundry">👕 Laundry</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="parking" name="amenities" value="parking">
+                        <label for="parking">🚗 Parking</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="security" name="amenities" value="security">
+                        <label for="security">🔒 24/7 Security</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="gym" name="amenities" value="gym">
+                        <label for="gym">💪 Gym</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gender -->
+            <div class="filter-section">
+                <label class="filter-label">Gender Preference</label>
+                <div class="filter-group">
+                    <div class="filter-option">
+                        <input type="radio" id="male" name="gender" value="male">
+                        <label for="male">👨 Male Only</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" id="female" name="gender" value="female">
+                        <label for="female">👩 Female Only</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" id="unisex" name="gender" value="unisex">
+                        <label for="unisex">👥 Co-ed</label>
+                    </div>
+                </div>
+            </div>
+
+            <button class="apply-filters" onclick="applyFilters()">Apply Filters</button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="results-header">
+                <div class="results-count" id="resultsCount">Showing 12 PGs in Vijayawada</div>
+                <select class="sort-dropdown" onchange="sortPGs(this.value)">
+                    <option value="relevance">Sort by Relevance</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="rating">Rating</option>
+                    <option value="newest">Newest First</option>
+                </select>
+            </div>
+
+            <div class="pg-grid" id="pgGrid">
+                <!-- PG Cards will be generated by JavaScript -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Sample PG data
+        const pgData = [
+            {
+                id: 1,
+                name: "Green Valley PG",
+                location: "Benz Circle, Vijayawada",
+                price: 8500,
+                sharing: "double",
+                food: "veg",
+                ac: "ac",
+                amenities: ["wifi", "laundry", "parking", "security"],
+                gender: "male",
+                availability: "available",
+                rating: 4.5,
+                image: "🏠"
+            },
+            {
+                id: 2,
+                name: "Krishna Residency",
+                location: "Governorpet, Vijayawada",
+                price: 12000,
+                sharing: "single",
+                food: "both",
+                ac: "both-ac",
+                amenities: ["wifi", "laundry", "gym", "security"],
+                gender: "unisex",
+                availability: "limited",
+                rating: 4.8,
+                image: "🏢"
+            },
+            {
+                id: 3,
+                name: "Student Hub PG",
+                location: "Auto Nagar, Vijayawada",
+                price: 6500,
+                sharing: "triple",
+                food: "nonveg",
+                ac: "nonac",
+                amenities: ["wifi", "security"],
+                gender: "male",
+                availability: "available",
+                rating: 4.2,
+                image: "🎓"
+            },
+            {
+                id: 4,
+                name: "Comfort Zone Ladies PG",
+                location: "Patamata, Vijayawada",
+                price: 9000,
+                sharing: "double",
+                food: "veg",
+                ac: "ac",
+                amenities: ["wifi", "laundry", "security", "gym"],
+                gender: "female",
+                availability: "available",
+                rating: 4.6,
+                image: "👩"
+            },
+            {
+                id: 5,
+                name: "Tech Park Residency",
+                location: "Mangalagiri, Vijayawada",
+                price: 15000,
+                sharing: "single",
+                food: "both",
+                ac: "ac",
+                amenities: ["wifi", "laundry", "parking", "security", "gym"],
+                gender: "unisex",
+                availability: "limited",
+                rating: 4.9,
+                image: "💻"
+            },
+            {
+                id: 6,
+                name: "Budget Stay PG",
+                location: "Labbipet, Vijayawada",
+                price: 5500,
+                sharing: "multiple",
+                food: "veg",
+                ac: "nonac",
+                amenities: ["wifi", "security"],
+                gender: "male",
+                availability: "available",
+                rating: 3.8,
+                image: "💰"
+            },
+            {
+                id: 7,
+                name: "Elite Women's Hostel",
+                location: "MG Road, Vijayawada",
+                price: 11000,
+                sharing: "double",
+                food: "both",
+                ac: "ac",
+                amenities: ["wifi", "laundry", "security", "gym"],
+                gender: "female",
+                availability: "available",
+                rating: 4.7,
+                image: "👸"
+            },
+            {
+                id: 8,
+                name: "Riverside PG",
+                location: "Krishna Lanka, Vijayawada",
+                price: 7500,
+                sharing: "triple",
+                food: "nonveg",
+                ac: "both-ac",
+                amenities: ["wifi", "laundry", "parking"],
+                gender: "unisex",
+                availability: "limited",
+                rating: 4.3,
+                image: "🌊"
+            },
+            {
+                id: 9,
+                name: "Professional's Choice",
+                location: "Gunadala, Vijayawada",
+                price: 13000,
+                sharing: "single",
+                food: "both",
+                ac: "ac",
+                amenities: ["wifi", "laundry", "parking", "security", "gym"],
+                gender: "unisex",
+                availability: "available",
+                rating: 4.8,
+                image: "💼"
+            },
+            {
+                id: 10,
+                name: "Cozy Corner PG",
+                location: "Suryaraopet, Vijayawada",
+                price: 6000,
+                sharing: "double",
+                food: "veg",
+                ac: "nonac",
+                amenities: ["wifi", "security"],
+                gender: "female",
+                availability: "available",
+                rating: 4.1,
+                image: "🏡"
+            },
+            {
+                id: 11,
+                name: "Modern Living PG",
+                location: "Governorpet, Vijayawada",
+                price: 10500,
+                sharing: "single",
+                food: "both",
+                ac: "ac",
+                amenities: ["wifi", "laundry", "parking", "gym"],
+                gender: "male",
+                availability: "limited",
+                rating: 4.5,
+                image: "🏛️"
+            },
+            {
+                id: 12,
+                name: "Star Hostel",
+                location: "One Town, Vijayawada",
+                price: 8000,
+                sharing: "triple",
+                food: "nonveg",
+                ac: "both-ac",
+                amenities: ["wifi", "laundry", "security"],
+                gender: "unisex",
+                availability: "available",
+                rating: 4.4,
+                image: "⭐"
+            }
+        ];
+
+        let filteredPGs = [...pgData];
+
+        function createPGCard(pg) {
+            const availabilityClass = pg.availability === 'available' ? 'available' : 'limited';
+            const availabilityText = pg.availability === 'available' ? '✅ Available' : '⚠️ Limited';
+            
+            const features = [];
+            if (pg.food === 'veg') features.push('<span class="feature-tag veg">🥗 Veg</span>');
+            if (pg.food === 'nonveg') features.push('<span class="feature-tag">🍗 Non-Veg</span>');
+            if (pg.food === 'both') features.push('<span class="feature-tag">🍽️ Both</span>');
+            
+            if (pg.ac === 'ac') features.push('<span class="feature-tag ac">❄️ AC</span>');
+            if (pg.ac === 'nonac') features.push('<span class="feature-tag">🌬️ Non-AC</span>');
+            if (pg.ac === 'both-ac') features.push('<span class="feature-tag ac">🏠 Both</span>');
+            
+            if (pg.amenities.includes('wifi')) features.push('<span class="feature-tag wifi">📶 WiFi</span>');
+            if (pg.amenities.includes('gym')) features.push('<span class="feature-tag">💪 Gym</span>');
+            
+            const sharingText = {
+                'single': 'Single Room',
+                'double': 'Double Sharing',
+                'triple': 'Triple Sharing',
+                'multiple': 'Multiple Sharing'
+            };
+
+            return `
+                <div class="pg-card" onclick="viewPGDetails(${pg.id})">
+                    <div class="pg-image">
+                        ${pg.image}
+                    </div>
+                    <div class="pg-content">
+                        <h3 class="pg-name">${pg.name}</h3>
+                        <div class="pg-location">
+                            📍 ${pg.location}
+                        </div>
+                        <div class="pg-features">
+                            ${features.join('')}
+                            <span class="feature-tag">${sharingText[pg.sharing]}</span>
+                        </div>
+                        <div class="pg-details">
+                            <div>
+                                <div class="pg-price">₹${pg.price.toLocaleString()}/month</div>
+                                <div class="availability ${availabilityClass}">${availabilityText}</div>
+                            </div>
+                            <button class="contact-btn" onclick="event.stopPropagation(); contactOwner(${pg.id})">Contact</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderPGs(pgs = filteredPGs) {
+            const grid = document.getElementById('pgGrid');
+            grid.innerHTML = pgs.map(pg => createPGCard(pg)).join('');
+            document.getElementById('resultsCount').textContent = `Showing ${pgs.length} PGs in Vijayawada`;
+        }
+
+        function applyFilters() {
+            const filters = {
+                sharing: Array.from(document.querySelectorAll('input[name="sharing"]:checked')).map(cb => cb.value),
+                food: document.querySelector('input[name="food"]:checked')?.value,
+                ac: document.querySelector('input[name="ac"]:checked')?.value,
+                amenities: Array.from(document.querySelectorAll('input[name="amenities"]:checked')).map(cb => cb.value),
+                gender: document.querySelector('input[name="gender"]:checked')?.value,
+                minPrice: parseInt(document.getElementById('minPrice').value) || 0,
+                maxPrice: parseInt(document.getElementById('maxPrice').value) || Infinity
+            };
+
+            filteredPGs = pgData.filter(pg => {
+                if (filters.sharing.length && !filters.sharing.includes(pg.sharing)) return false;
+                if (filters.food && pg.food !== filters.food && pg.food !== 'both') return false;
+                if (filters.ac && pg.ac !== filters.ac && pg.ac !== 'both-ac') return false;
+                if (filters.gender && pg.gender !== filters.gender && pg.gender !== 'unisex') return false;
+                if (pg.price < filters.minPrice || pg.price > filters.maxPrice) return false;
+                if (filters.amenities.length && !filters.amenities.every(amenity => pg.amenities.includes(amenity))) return false;
+                return true;
+            });
+
+            renderPGs(filteredPGs);
+        }
+
+        function searchPGs() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (!searchTerm) {
+                renderPGs(pgData);
+                return;
+            }
+
+            const searchResults = pgData.filter(pg => 
+                pg.name.toLowerCase().includes(searchTerm) ||
+                pg.location.toLowerCase().includes(searchTerm)
+            );
+            renderPGs(searchResults);
+        }
+
+        function sortPGs(sortBy) {
+            let sorted = [...filteredPGs];
+            
+            switch(sortBy) {
+                case 'price-low':
+                    sorted.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    sorted.sort((a, b) => b.price - a.price);
+                    break;
+                case 'rating':
+                    sorted.sort((a, b) => b.rating - a.rating);
+                    break;
+                case 'newest':
+                    sorted.sort((a, b) => b.id - a.id);
+                    break;
+                default:
+                    // relevance - keep original order
+                    break;
+            }
+            
+            renderPGs(sorted);
+        }
+
+        function viewPGDetails(pgId) {
+            const pg = pgData.find(p => p.id === pgId);
+            alert(`Viewing details for: ${pg.name}\n\nPrice: ₹${pg.price}/month\nLocation: ${pg.location}\nRating: ${pg.rating}⭐\n\nClick "Contact" to get owner details!`);
+        }
+
+        function contactOwner(pgId) {
+            const pg = pgData.find(p => p.id === pgId);
+            alert(`Contact details for ${pg.name}:\n\n📞 Phone: +91 98765 43210\n📧 Email: owner@${pg.name.toLowerCase().replace(/\s+/g, '')}.com\n\nBest time to call: 10 AM - 7 PM`);
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderPGs();
+            
+            // Add search on Enter key
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchPGs();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

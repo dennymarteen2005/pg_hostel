@@ -210,15 +210,32 @@
         <div class="logo">pg connect</div>
         <div class="subtitle">Create PG Owner Account</div>
 
-        <form id="signupForm" onsubmit="handleSignup(event)">
+        {% if form.errors %}
+<div class="error-messages">
+    <ul>
+        {% for field in form %}
+            {% for error in field.errors %}
+                <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+        <form id="signupForm" method="post" action="{% url 'owner_signup' %}">
+             {% csrf_token %}
+            
             <div class="form-row">
                 <div class="form-group">
                     <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" name="firstName" placeholder="First name" required>
+                    <input type="text" id="firstName" name="first_name" placeholder="First name" required>
                 </div>
                 <div class="form-group">
                     <label for="lastName">Last Name</label>
-                    <input type="text" id="lastName" name="lastName" placeholder="Last name" required>
+                    <input type="text" id="lastName" name="last_name" placeholder="Last name" required>
                 </div>
             </div>
 
@@ -234,17 +251,21 @@
 
             <div class="form-group">
                 <label for="businessName">Business/Property Name</label>
-                <input type="text" id="businessName" name="businessName" placeholder="Your PG/business name" required>
+                <input type="text" id="businessName" name="business_name" placeholder="Your PG/business name" required>
             </div>
+            <div class="form-group">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" placeholder="Choose a username" required>
+</div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Create password" required>
+                    <input type="password" id="password" name="password1" placeholder="Create password" required>
                 </div>
                 <div class="form-group">
                     <label for="confirmPassword">Confirm Password</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" required>
+                    <input type="password" id="confirmPassword" name="password2" placeholder="Confirm password" required>
                 </div>
             </div>
 
@@ -264,21 +285,21 @@
     </div>
 
     <script>
-        function handleSignup(event) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData);
+        // function handleSignup(event) {
+        //     event.preventDefault();
+        //     const formData = new FormData(event.target);
+        //     const data = Object.fromEntries(formData);
             
-            // Check password match
-            if (data.password !== data.confirmPassword) {
-                alert('Passwords do not match!');
-                return;
-            }
+        //     // Check password match
+        //     if (data.password !== data.confirmPassword) {
+        //         alert('Passwords do not match!');
+        //         return;
+        //     }
             
-            // Add your signup logic here
-            console.log('Owner Signup:', data);
-            alert('Signup functionality to be implemented');
-        }
+        //     // Add your signup logic here
+        //     console.log('Owner Signup:', data);
+        //     alert('Signup functionality to be implemented');
+        // }
 
         function goBack() {
             window.history.back();

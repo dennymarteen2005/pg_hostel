@@ -193,7 +193,8 @@
         <div class="logo">pg connect</div>
         <div class="subtitle">PG Owner Login</div>
 
-        <form id="loginForm" onsubmit="handleLogin(event)">
+        <form method="post" action="{% url 'owner_login' %}">
+             {% csrf_token %}
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
@@ -217,15 +218,6 @@
     </div>
 
     <script>
-        function handleLogin(event) {
-            event.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            // Add your login logic here
-            console.log('Owner Login:', { email, password });
-            alert('Login functionality to be implemented');
-        }
 
         function goBack() {
             // Navigate back to main page or previous page
