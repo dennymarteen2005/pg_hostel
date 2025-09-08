@@ -8,114 +8,54 @@
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
 <body>
-    <div class="background-animation">
-        <div class="floating-shape shape-1"></div>
-        <div class="floating-shape shape-2"></div>
-        <div class="floating-shape shape-3"></div>
-        <div class="floating-shape shape-4"></div>
-        <div class="floating-shape shape-5"></div>
+    <div class="container">
+        <header>
+            <div class="logo">PG Pathfinder</div>
+            <nav>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="hero-section">
+            <div class="tagline">A PREMIUM PAYING GUEST PLATFORM</div>
+            <h1 class="main-heading">
+                Finding your<br>
+                <span class="italic">perfect</span> home<br>
+                away from home
+            </h1>
+
+            <div class="user-roles">
+                <div class="role-card" onclick="handleRoleClick('admin')">
+                    <span class="role-icon">👨‍💼</span>
+                    <h3 class="role-title">Admin</h3>
+                    <p class="role-description">Manage the platform and oversee all operations</p>
+                </div>
+
+                <div class="role-card" onclick="handleRoleClick('pg-owner')">
+                    <span class="role-icon">🏠</span>
+                    <h3 class="role-title">PG Owner</h3>
+                    <p class="role-description">List and manage your properties with ease</p>
+                </div>
+
+                <div class="role-card" onclick="handleRoleClick('user')">
+                    <span class="role-icon">👥</span>
+                    <h3 class="role-title">User</h3>
+                    <p class="role-description">Find and book your ideal accommodation</p>
+                </div>
+            </div>
+        </main>
     </div>
 
-    <header class="header">
-        <nav class="navbar">
-            <div class="logo">
-                <div class="logo-icon"></div>
-                <span class="logo-text">AccessHub</span>
-            </div>
-            <div class="nav-menu">
-                <a href="#" class="nav-link">About</a>
-                <a href="#" class="nav-link">Contact</a>
-                <a href="#" class="nav-link">Help</a>
-            </div>
-        </nav>
-    </header>
+    <div class="decorative-elements">
+        <div class="arch arch1"></div>
+        <div class="arch arch2"></div>
+        <div class="sphere"></div>
+    </div>
 
-    <main class="main-content">
-        <div class="hero-section">
-            <div class="hero-text">
-                <h1 class="main-title">Welcome to Your Digital Workspace</h1>
-                <p class="subtitle">Choose your access level to begin your personalized experience</p>
-            </div>
-        </div>
+    </body>
 
-        <div class="role-selection">
-            <div class="role-card admin-card" data-role="admin">
-                <div class="card-glow"></div>
-                <div class="card-content">
-                    <div class="role-icon admin-icon">
-                        <div class="icon-shape"></div>
-                    </div>
-                    <h2 class="role-title">Administrator</h2>
-                    <p class="role-description">Full system control with complete access to all features, user management, and system configuration.</p>
-                    <ul class="role-features">
-                        <li>User Management</li>
-                        <li>System Configuration</li>
-                        <li>Advanced Analytics</li>
-                        <li>Security Controls</li>
-                    </ul>
-                    <button class="role-button">Access Admin Panel</button>
-                </div>
-            </div>
-
-            <div class="role-card owner-card" data-role="owner">
-                <div class="card-glow"></div>
-                <div class="card-content">
-                    <div class="role-icon owner-icon">
-                        <div class="icon-shape"></div>
-                    </div>
-                    <h2 class="role-title">Owner</h2>
-                    <p class="role-description">Business owner access with comprehensive oversight, reporting, and strategic management capabilities.</p>
-                    <ul class="role-features">
-                        <li>Business Insights</li>
-                        <li>Financial Reports</li>
-                        <li>Team Overview</li>
-                        <li>Strategic Planning</li>
-                    </ul>
-                    <button class="role-button">Enter Owner Dashboard</button>
-                </div>
-            </div>
-
-            <div class="role-card user-card" data-role="user">
-                <div class="card-glow"></div>
-                <div class="card-content">
-                    <div class="role-icon user-icon">
-                        <div class="icon-shape"></div>
-                    </div>
-                    <h2 class="role-title">User</h2>
-                    <p class="role-description">Standard user access with essential features for daily productivity and seamless workflow management.</p>
-                    <ul class="role-features">
-                        <li>Personal Dashboard</li>
-                        <li>Task Management</li>
-                        <li>File Sharing</li>
-                        <li>Collaboration Tools</li>
-                    </ul>
-                    <button class="role-button">Start Working</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="features-preview">
-            <h3 class="features-title">Trusted by professionals worldwide</h3>
-            <div class="stats">
-                <div class="stat-item">
-                    <span class="stat-number">10K+</span>
-                    <span class="stat-label">Active Users</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">99.9%</span>
-                    <span class="stat-label">Uptime</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">24/7</span>
-                    <span class="stat-label">Support</span>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <footer class="footer">
-        <p>&copy; 2025 AccessHub. All rights reserved.</p>
-    </footer>
-    <script src="{% static 'js/index.js' %}"></script>
-</body>
 </html>
